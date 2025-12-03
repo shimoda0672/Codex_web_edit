@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>日報ミニビューア（テスト用）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>日報ミニビューア（テスト用サイト）</h1>
+    <p class="site-header__subtitle">
+      このサイトは Codex / GitHub 自動修正のテスト用です。<br />
+      バグや改善ポイントをわざと残してあります。
+    </p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>日報一覧</h2>
+
+      <div class="filters">
+        <label>
+          日付フィルタ：
+          <input type="date" id="dateFilter" />
+        </label>
+        <button id="clearFilterBtn" class="btn">フィルタ解除</button>
+      </div>
+
+      <ul id="reportList" class="report-list"></ul>
+
+      <p class="hint">
+        ※ 不具合テスト：日付フィルタが正しく動かないことがあります。
+        Codex に修正させるときの題材に使ってください。
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>簡易メモ</h2>
+      <p>
+        下の入力欄からメモを追加できます。<br />
+        ここにも少しだけ挙動がおかしい部分があります（ヒント：空文字やスペースだけのメモ）。
+      </p>
+
+      <div class="memo-form">
+        <input
+          type="text"
+          id="memoInput"
+          placeholder="メモを入力して Enter または 追加 ボタン"
+        />
+        <button id="addMemoBtn" class="btn btn--primary">追加</button>
+      </div>
+
+      <ul id="memoList" class="memo-list"></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>
+      Codex / GitHub 自動編集テスト用サイト |
+      <span id="yearSpan"></span>
+    </small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
