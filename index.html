@@ -2,66 +2,96 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>日報ミニビューア（テスト用）</title>
+  <title>Codex インターフェース（最小版）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+    p {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+    #resultBox {
+      margin-top: 25px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+      font-size: 13px;
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <h1>日報ミニビューア（テスト用サイト）</h1>
-    <p class="site-header__subtitle">
-      このサイトは Codex / GitHub 自動修正のテスト用です。<br />
-      バグや改善ポイントをわざと残してあります。
-    </p>
-  </header>
 
-  <main class="container">
-    <section class="card">
-      <h2>日報一覧</h2>
+  <!-- 見出しを p 一つに集約 -->
+  <p>これは Codex / GitHub 自動修正テスト用の最小インターフェースです。</p>
 
-      <div class="filters">
-        <label>
-          日付フィルタ：
-          <input type="date" id="dateFilter" />
-        </label>
-        <button id="clearFilterBtn" class="btn">フィルタ解除</button>
-      </div>
+  <form id="modifyForm">
 
-      <ul id="reportList" class="report-list"></ul>
+    <label>リポジトリを選択（owner/repo）</label>
+    <select id="repoSelect">
+      <option value="">読み込み中...</option>
+    </select>
 
-      <p class="hint">
-        ※ 不具合テスト：日付フィルタが正しく動かないことがあります。
-        Codex に修正させるときの題材に使ってください。
-      </p>
-    </section>
+    <label>対象パス（任意）</label>
+    <input type="text" id="path" placeholder="例: src/">
 
-    <section class="card">
-      <h2>簡易メモ</h2>
-      <p>
-        下の入力欄からメモを追加できます。<br />
-        ここにも少しだけ挙動がおかしい部分があります（ヒント：空文字やスペースだけのメモ）。
-      </p>
+    <label>指示（自然言語）</label>
+    <textarea id="instruction" rows="5" placeholder="修正内容を入力してください"></textarea>
 
-      <div class="memo-form">
-        <input
-          type="text"
-          id="memoInput"
-          placeholder="メモを入力して Enter または 追加 ボタン"
-        />
-        <button id="addMemoBtn" class="btn btn--primary">追加</button>
-      </div>
+    <label>アップロードファイル（任意）</label>
+    <input type="file" id="files" multiple />
 
-      <ul id="memoList" class="memo-list"></ul>
-    </section>
-  </main>
+    <button type="submit">実行</button>
+  </form>
 
-  <footer class="site-footer">
-    <small>
-      Codex / GitHub 自動編集テスト用サイト |
-      <span id="yearSpan"></span>
-    </small>
-  </footer>
+  <div id="resultBox"></div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <script>
+    // リポジトリ一覧ロード
+    async function loadRepos() {
+      const select = document.getElementById("repoSelect");
+      select.innerHTML = "<option value=''>読み込み中...</option>";
+      try {
+        const res = await fetch("/api/repos");
+        const data = await res.json();
+        select.innerHTML = "";
+        data.repos.forEach(r => {
+          const opt = document.createElement("option");
+          opt.value = r.fullName;
+          opt.textContent = r.fullName;
+          select.appendChild(opt);
+        });
+      } catch (e) {
+        select.innerHTML = "<option value=''>取得失敗</option>";
+      }
+    }
+
+    loadRepos();
+
+    // フォーム送信
+    document.getElementById("modifyForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const repo = document.getElementByI
