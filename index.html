@@ -2,96 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Codex インターフェース（最小版）</title>
+  <title>Codex test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f7f7f7;
-    }
-    p {
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input[type="text"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 6px;
-      margin-top: 5px;
-      font-size: 14px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 8px 14px;
-      font-size: 14px;
-    }
-    #resultBox {
-      margin-top: 25px;
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      white-space: pre-wrap;
-      font-size: 13px;
-    }
-  </style>
 </head>
 <body>
-
-  <!-- 見出しを p 一つに集約 -->
-  <p>これは Codex / GitHub 自動修正テスト用の最小インターフェースです。</p>
-
-  <form id="modifyForm">
-
-    <label>リポジトリを選択（owner/repo）</label>
-    <select id="repoSelect">
-      <option value="">読み込み中...</option>
-    </select>
-
-    <label>対象パス（任意）</label>
-    <input type="text" id="path" placeholder="例: src/">
-
-    <label>指示（自然言語）</label>
-    <textarea id="instruction" rows="5" placeholder="修正内容を入力してください"></textarea>
-
-    <label>アップロードファイル（任意）</label>
-    <input type="file" id="files" multiple />
-
-    <button type="submit">実行</button>
-  </form>
-
-  <div id="resultBox"></div>
-
-  <script>
-    // リポジトリ一覧ロード
-    async function loadRepos() {
-      const select = document.getElementById("repoSelect");
-      select.innerHTML = "<option value=''>読み込み中...</option>";
-      try {
-        const res = await fetch("/api/repos");
-        const data = await res.json();
-        select.innerHTML = "";
-        data.repos.forEach(r => {
-          const opt = document.createElement("option");
-          opt.value = r.fullName;
-          opt.textContent = r.fullName;
-          select.appendChild(opt);
-        });
-      } catch (e) {
-        select.innerHTML = "<option value=''>取得失敗</option>";
-      }
-    }
-
-    loadRepos();
-
-    // フォーム送信
-    document.getElementById("modifyForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const repo = document.getElementByI
+  <p>テスト用</p>
+</body>
